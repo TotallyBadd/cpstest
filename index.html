@@ -103,14 +103,14 @@
     <script>
         const clickBox = document.getElementById("clickBox");
         const currentCpsElement = document.getElementById("currentCps");
-        const highScoreElement = document.getElementById("highScore");
+        const highScoreElement = document.getElementById("highScoreClicksCPS");
 
         let clickCount = 0;
         let startTime = null;
         let timeout = null;
-        let highScore = parseFloat(localStorage.getItem("highScore")) || 0;
+        let highScore = parseFloat(localStorage.getItem("highScoreClicksCPS")) || 0;
 
-        highScoreElement.textContent = highScore;
+        highScoreElement.textContent = highScoreClicksCPS;
 
         function calculateCps() {
             const currentTime = Date.now();
@@ -127,8 +127,8 @@
 
             if (cps > highScore) {
                 highScore = cps;
-                highScoreElement.textContent = highScore;
-                localStorage.setItem("highScore", highScore);
+                highScoreElement.textContent = highScoreClicksCPS;
+                localStorage.setItem("highScore", highScoreClicksCPS);
             }
 
             startTime = null;
