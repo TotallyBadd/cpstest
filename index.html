@@ -110,7 +110,7 @@
         let timeout = null;
         let highScore = parseFloat(localStorage.getItem("highScoreClicksCPS")) || 0;
 
-        highScoreElement.textContent = highScoreClicksCPS;
+        highScoreElement.textContent = highScore;
 
         function calculateCps() {
             const currentTime = Date.now();
@@ -127,8 +127,8 @@
 
             if (cps > highScore) {
                 highScore = cps;
-                highScoreElement.textContent = highScoreClicksCPS;
-                localStorage.setItem("highScore", highScoreClicksCPS);
+                highScoreElement.textContent = highScore;
+                localStorage.setItem("highScore", highScore);
             }
 
             startTime = null;
