@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPS Test</title>
+    <link rel="icon" href="https://img.icons8.com/?size=48&id=103413&format=png" type="image/png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #f0f0f0;
+        }
+
+        h1, p {
+            margin: 0.5em;
+        }
+
+        .click-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 300px;
+            height: 200px;
+            background-color: #007bff;
+            color: white;
+            font-size: 1.5em;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            user-select: none;
+            text-align: center;
+        }
+
+        .click-box:hover {
+            background-color: #0056b3;
+        }
+
+        .stats {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .high-score {
+            color: #007bff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>CPS Test</h1>
+    <div class="click-box" id="clickBox">Start Clicking!</div>
+    <div class="stats">
+        <p>Current CPS: <span id="currentCps">0</span></p>
+        <p>High Score: <span id="highScore" class="high-score">0</span></p>
+    </div>
+    <script>
+        const clickBox = document.getElementById("clickBox");
+        const currentCpsElement = document.getElementById("currentCps");
+        const highScoreElement = document.getElementById("highScore");
+
+        let clickCount = 0;
+        let startTime = null;
+        let timeout = null;
+        let highScore = parseFloat(localStorage.getItem("highScore")) || 0;
+
+        highScoreElement.textContent = highScore;
+
+        function calculateCps() {
+            const currentTime = Date.now();
+            const elapsedSeconds = (currentTime - startTime) / 1000;
+            const cps = (clickCount / elapsedSeconds).toFixed(2);
+            return parseFloat(cps);
+        }
+
+        function endCpsCalculation() {
+            if (!startTime) return;
+
+            const cps = calculateCps();
+            currentCpsElement.textContent = cps;
+
+            if (cps > highScore) {
+                highScore = cps;
+                highScoreElement.textContent = highScore;
+                localStorage.setItem("highScore", highScore);
+            }
+
+            startTime = null;
+            clickCount = 0;
+        }
+
+        clickBox.addEventListener("click", () => {
+            if (!startTime) {
+                startTime = Date.now();
+            }
+
+            clickCount++;
+            currentCpsElement.textContent = calculateCps();
+
+            clearTimeout(timeout);
+            timeout = setTimeout(endCpsCalculation, 3000);
+        });
+    </script>
+</body>
+</html>
